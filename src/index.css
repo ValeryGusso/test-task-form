@@ -97,7 +97,16 @@ body {
 	column-gap: 0 !important;
 	cursor: default;
 }
-.form__button__confirm {
+.form__button__confirm,
+.form__button__reset {
 	width: 300px;
 	column-gap: 25px;
+}
+.form__button__reset:hover {
+	background-color: #e256568f;
+	transition: 0.3s;
+}
+.form__button__confirm:hover {
+	background-color: #6dd9959f;
+	transition: 0.3s;
 }

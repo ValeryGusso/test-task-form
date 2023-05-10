@@ -179,7 +179,7 @@ function App() {
 				</div>
 				{step === 6 && (
 					<>
-						<button className="form__button form__button__confirm" type="button" onClick={clear}>
+						<button className="form__button form__button__reset" type="button" onClick={clear}>
 							Очистить!
 							<BiReset />
 						</button>
