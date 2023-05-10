@@ -29,12 +29,16 @@ body {
 	row-gap: 50px;
 }
 .form__title {
+	max-width: 50vw;
 	font-size: 22px;
 	color: #edecef;
 	text-align: center;
 	cursor: default;
 }
 .form__content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	min-height: 150px;
 }
 .form__select {

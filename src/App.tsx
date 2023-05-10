@@ -1,7 +1,7 @@
 import { FormEvent, useCallback, useState } from 'react'
 import 'react-nice-dates/build/style.css'
 import Select from 'react-select'
-import { ro, ru } from 'date-fns/locale'
+import { ru } from 'date-fns/locale'
 import { DatePicker } from 'react-nice-dates'
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai'
 import { BsFillClockFill } from 'react-icons/bs'
@@ -22,25 +22,6 @@ function App() {
 	const [room, setRoom] = useState(0)
 	const [time, setTime] = useState({ d: new Date(), h: hoursOptions[0].value, m: minutsOptions[0].value })
 	const [comment, setComment] = useState('')
-
-	const changeStep = useCallback((type: 'inc' | 'dec') => {
-		setStep(prev => {
-			let updated = prev
-			switch (type) {
-				case 'inc':
-					if (prev < 6) {
-						updated += 1
-					}
-					break
-				case 'dec':
-					if (prev > 1) {
-						updated -= 1
-					}
-					break
-			}
-			return updated
-		})
-	}, [])
 
 	function renderText() {
 		switch (step) {
@@ -66,36 +47,30 @@ function App() {
 		switch (step) {
 			case 1:
 				return (
-					<>
-						<Select
-							className="form__select"
-							value={firstStepOptions[building]}
-							onChange={e => setBuilding(e?.value!)}
-							options={firstStepOptions}
-						/>
-					</>
+					<Select
+						className="form__select"
+						value={firstStepOptions[building]}
+						onChange={e => setBuilding(e?.value!)}
+						options={firstStepOptions}
+					/>
 				)
 			case 2:
 				return (
-					<>
-						<Select
-							className="form__select"
-							value={secondStepOptions[floor]}
-							onChange={e => setFloor(e?.value!)}
-							options={secondStepOptions}
-						/>
-					</>
+					<Select
+						className="form__select"
+						value={secondStepOptions[floor]}
+						onChange={e => setFloor(e?.value!)}
+						options={secondStepOptions}
+					/>
 				)
 			case 3:
 				return (
-					<>
-						<Select
-							className="form__select"
-							value={thirdStepOptions[room]}
-							onChange={e => setRoom(e?.value!)}
-							options={thirdStepOptions}
-						/>
-					</>
+					<Select
+						className="form__select"
+						value={thirdStepOptions[room]}
+						onChange={e => setRoom(e?.value!)}
+						options={thirdStepOptions}
+					/>
 				)
 			case 4:
 				return (
@@ -146,15 +121,37 @@ function App() {
 		}
 	}
 
-	const submit = useCallback((e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		if (step > 6) {
-			changeStep('inc')
-		} else {
-			const data = { building, floor, room, date: time.d, hours: time.h, minuts: time.m }
-			console.log(JSON.stringify(data))
-		}
+	const changeStep = useCallback((type: 'inc' | 'dec') => {
+		setStep(prev => {
+			let updated = prev
+			switch (type) {
+				case 'inc':
+					if (prev < 6) {
+						updated += 1
+					}
+					break
+				case 'dec':
+					if (prev > 1) {
+						updated -= 1
+					}
+					break
+			}
+			return updated
+		})
 	}, [])
+
+	const submit = useCallback(
+		(e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault()
+			if (step < 6) {
+				changeStep('inc')
+			} else {
+				const data = { building, floor, room, date: time.d, hours: time.h, minuts: time.m }
+				console.log(JSON.stringify(data))
+			}
+		},
+		[step]
+	)
 
 	const clear = useCallback(() => {
 		setStep(1)
