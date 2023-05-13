@@ -26,15 +26,15 @@ function App() {
 	function renderText() {
 		switch (step) {
 			case 1:
-				return <p className="form__title">Выберите интересующую Вас башню</p>
+				return <p className="form__title">Выберите интересующую Вас башню:</p>
 			case 2:
-				return <p className="form__title">Выберите этаж</p>
+				return <p className="form__title">Выберите этаж:</p>
 			case 3:
-				return <p className="form__title">Выберите комнату</p>
+				return <p className="form__title">Выберите комнату:</p>
 			case 4:
 				return <p className="form__title">На какую дату Вы хотите забронировать?</p>
 			case 5:
-				return <p className="form__title">Если у Вас есть дополнительные пожелания, оставьте их здесь</p>
+				return <p className="form__title">Если у Вас есть дополнительные пожелания, оставьте их здесь:</p>
 			case 6:
 				return <p className="form__title">Давайте сверим данные. Всё верно?</p>
 
@@ -146,7 +146,14 @@ function App() {
 			if (step < 6) {
 				changeStep('inc')
 			} else {
-				const data = { building, floor, room, date: time.d, hours: time.h, minuts: time.m }
+				const data = {
+					building: firstStepOptions[building].label,
+					floor: secondStepOptions[floor].label,
+					room: thirdStepOptions[room].label,
+					date: time.d,
+					hours: hoursOptions[time.h].label,
+					minuts: minutsOptions[time.m].label,
+				}
 				console.log(JSON.stringify(data))
 			}
 		},
@@ -177,7 +184,7 @@ function App() {
 						<AiOutlineArrowRight />
 					</button>
 				</div>
-				{step === 6 && (
+				{step === 6 ? (
 					<>
 						<button className="form__button form__button__reset" type="button" onClick={clear}>
 							Очистить!
@@ -188,6 +195,8 @@ function App() {
 							<BsFillClockFill />
 						</button>
 					</>
+				) : (
+					<p className="form__title">Шаг {step} из 6</p>
 				)}
 			</form>
 		</div>
